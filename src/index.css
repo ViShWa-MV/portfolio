@@ -2,57 +2,67 @@
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
-<<<<<<< HEAD
-=======
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
-
->>>>>>> 0d162659818a3f446f5236316d391c7db225a74e
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-<<<<<<< HEAD
-/* Remove forced flex centering */
+/* Global styles */
 body {
   margin: 0;
   min-width: 320px;
+  min-height: 100vh;
   font-family: inherit;
-  background-color: #242424; /* This will get overridden by App.css gradient */
+  background-color: #242424; /* fallback; gradient comes from App.css */
   color: rgba(255, 255, 255, 0.87);
+  line-height: 1.6;
 }
 
-=======
->>>>>>> 0d162659818a3f446f5236316d391c7db225a74e
+/* Section defaults */
+section {
+  padding: 4rem 2rem;   /* internal spacing instead of big margins */
+  max-width: 1200px;
+  width: 90%;
+  margin: 0 auto;       /* only center horizontally */
+}
+
+/* Center text in most sections */
+section:not(#about) {
+  text-align: center;
+}
+
+/* About section stays justified */
+#about {
+  text-align: justify;
+}
+
+/* Headings */
+h1, h2, h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+/* Paragraphs */
+p {
+  margin-bottom: 1.5rem;
+}
+
+/* Links */
 a {
   font-weight: 500;
   color: #646cff;
   text-decoration: inherit;
 }
+
 a:hover {
   color: #535bf2;
 }
 
-<<<<<<< HEAD
-=======
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
->>>>>>> 0d162659818a3f446f5236316d391c7db225a74e
+/* Buttons */
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -64,14 +74,17 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
+
 button:hover {
   border-color: #646cff;
 }
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+/* Light mode adjustments */
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
@@ -82,5 +95,20 @@ button:focus-visible {
   }
   button {
     background-color: #f9f9f9;
+  }
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  section {
+    padding: 3rem 1.5rem;
+    width: 95%;
+  }
+}
+
+@media (max-width: 480px) {
+  section {
+    padding: 2.5rem 1rem;
+    width: 100%;
   }
 }

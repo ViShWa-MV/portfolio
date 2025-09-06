@@ -20,10 +20,7 @@ body {
   background-size: 400% 400%;
   animation: gradientBackground 15s ease infinite;
   color: white;
-<<<<<<< HEAD
   overflow-x: hidden; /* prevent horizontal scroll */
-=======
->>>>>>> 0d162659818a3f446f5236316d391c7db225a74e
 }
 
 html {
@@ -40,10 +37,7 @@ nav {
   padding: 1rem;
   display: flex;
   justify-content: center;
-<<<<<<< HEAD
-  flex-wrap: wrap;   /* ✅ wrap on small screens */
-=======
->>>>>>> 0d162659818a3f446f5236316d391c7db225a74e
+  flex-wrap: wrap;   
   gap: 2rem;
   z-index: 1000;
 }
@@ -72,25 +66,17 @@ nav a:hover { color: #38bdf8; }
 
 /* Section animation */
 section {
-<<<<<<< HEAD
-  padding: 4rem 2rem;
-  min-height: auto;
-=======
   min-height: 100vh;
   padding: 5rem 2rem;
->>>>>>> 0d162659818a3f446f5236316d391c7db225a74e
   display: flex;
   flex-direction: column;
   justify-content: center;
   opacity: 0;
   transform: translateY(50px);
   transition: all 0.8s ease-out;
-<<<<<<< HEAD
-  margin: 6rem auto 4rem auto;  /* ✅ margin auto to center */
-  max-width: 1200px;            /* ✅ constrain width */
+  margin: 6rem auto 4rem auto;
+  max-width: 1200px;
   width: 100%;
-=======
->>>>>>> 0d162659818a3f446f5236316d391c7db225a74e
 }
 
 section.show {
@@ -132,22 +118,14 @@ p {
   margin-bottom: 2rem;
 }
 
-<<<<<<< HEAD
 /* Projects Section */
 #projects {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
+  min-height: 100vh;
   width: 100%;
-=======
-/* ✅ Updated Projects Section for Vertical Centering */
-#projects {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;  /* Vertical centering */
-  align-items: center;      /* Horizontal centering */
-  min-height: 100vh;        /* Full screen height */
->>>>>>> 0d162659818a3f446f5236316d391c7db225a74e
 }
 
 .projects {
@@ -155,11 +133,7 @@ p {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
-<<<<<<< HEAD
-  justify-items: center;
-=======
-  justify-items: center; /* Center items in grid cells */
->>>>>>> 0d162659818a3f446f5236316d391c7db225a74e
+  justify-items: center; 
 }
 
 .project {
@@ -172,11 +146,8 @@ p {
   justify-content: center;  
   align-items: center;
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-<<<<<<< HEAD
   width: 100%;
-  max-width: 450px;  /* ✅ prevent going too wide */
-=======
->>>>>>> 0d162659818a3f446f5236316d391c7db225a74e
+  max-width: 450px; 
 }
 
 .project:hover {
@@ -187,11 +158,7 @@ p {
 .slideshow {
   width: 100%;
   max-width: 400px;
-<<<<<<< HEAD
-  height: auto;
-=======
   height: 220px;
->>>>>>> 0d162659818a3f446f5236316d391c7db225a74e
   margin-top: 1rem;
   display: flex;
   justify-content: center;
@@ -201,11 +168,7 @@ p {
 
 .slideshow img {
   width: 100%;
-<<<<<<< HEAD
-  height: auto;
-=======
   height: 100%;
->>>>>>> 0d162659818a3f446f5236316d391c7db225a74e
   object-fit: cover;
   border-radius: 8px;
   transition: opacity 0.5s ease-in-out;
@@ -214,13 +177,10 @@ p {
 /* Hero Section */
 .hero {
   text-align: center;
-<<<<<<< HEAD
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
-=======
->>>>>>> 0d162659818a3f446f5236316d391c7db225a74e
 }
 
 .intro-text {
@@ -274,13 +234,9 @@ p {
   justify-content: center;
   align-items: center;
   text-align: center;
-<<<<<<< HEAD
-  min-height: auto;
+  min-height: 70vh;
   max-width: 900px;
   margin: 0 auto;
-=======
-  min-height: 70vh;
->>>>>>> 0d162659818a3f446f5236316d391c7db225a74e
 }
 
 .contact-buttons {
@@ -309,22 +265,16 @@ p {
   height: 24px;
 }
 
-/* LinkedIn button */
-.linkedin {
-  background-color: #0077b5;
-  color: white;
-}
+/* Social buttons */
+.linkedin { background-color: #0077b5; color: white; }
 .linkedin:hover { background-color: #005983; }
 
-/* GitHub button */
 .github { background-color: #333; color: white; }
 .github:hover { background-color: #000; }
 
-/* Email button */
 .email { background-color: #ea4335; color: white; }
 .email:hover { background-color: #c1351d; }
 
-/* Instagram button */
 .instagram { background-color: #e1306c; color: white; }
 .instagram:hover { background-color: #b92a5b; }
 
@@ -336,7 +286,6 @@ footer {
   font-size: 0.9rem;
   backdrop-filter: blur(5px);
 }
-<<<<<<< HEAD
 
 /* Profile Picture in Hero */
 .profile-pic {
@@ -355,27 +304,5 @@ footer {
   box-shadow: 0 0 20px rgba(100, 108, 255, 0.6);
   background: #fff;
   padding: 4px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.
 }
-
-.profile-pic img:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 30px rgba(100, 108, 255, 0.9);
-}
-
-/* ✅ Responsive tweaks */
-@media (max-width: 768px) {
-  .intro-text { font-size: 2.2rem; }
-  .role { font-size: 1.6rem; }
-  .tagline { font-size: 1rem; }
-  nav { gap: 1rem; }
-}
-
-@media (max-width: 480px) {
-  .intro-text { font-size: 1.8rem; }
-  .role { font-size: 1.3rem; }
-  .tagline { font-size: 0.9rem; }
-  .project { padding: 1rem; }
-}
-=======
->>>>>>> 0d162659818a3f446f5236316d391c7db225a74e
