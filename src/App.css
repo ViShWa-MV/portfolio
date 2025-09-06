@@ -20,7 +20,10 @@ body {
   background-size: 400% 400%;
   animation: gradientBackground 15s ease infinite;
   color: white;
+<<<<<<< HEAD
   overflow-x: hidden; /* prevent horizontal scroll */
+=======
+>>>>>>> 0d162659818a3f446f5236316d391c7db225a74e
 }
 
 html {
@@ -37,7 +40,10 @@ nav {
   padding: 1rem;
   display: flex;
   justify-content: center;
+<<<<<<< HEAD
   flex-wrap: wrap;   /* ✅ wrap on small screens */
+=======
+>>>>>>> 0d162659818a3f446f5236316d391c7db225a74e
   gap: 2rem;
   z-index: 1000;
 }
@@ -66,17 +72,25 @@ nav a:hover { color: #38bdf8; }
 
 /* Section animation */
 section {
+<<<<<<< HEAD
   padding: 4rem 2rem;
   min-height: auto;
+=======
+  min-height: 100vh;
+  padding: 5rem 2rem;
+>>>>>>> 0d162659818a3f446f5236316d391c7db225a74e
   display: flex;
   flex-direction: column;
   justify-content: center;
   opacity: 0;
   transform: translateY(50px);
   transition: all 0.8s ease-out;
+<<<<<<< HEAD
   margin: 6rem auto 4rem auto;  /* ✅ margin auto to center */
   max-width: 1200px;            /* ✅ constrain width */
   width: 100%;
+=======
+>>>>>>> 0d162659818a3f446f5236316d391c7db225a74e
 }
 
 section.show {
@@ -118,12 +132,22 @@ p {
   margin-bottom: 2rem;
 }
 
+<<<<<<< HEAD
 /* Projects Section */
 #projects {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
+=======
+/* ✅ Updated Projects Section for Vertical Centering */
+#projects {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;  /* Vertical centering */
+  align-items: center;      /* Horizontal centering */
+  min-height: 100vh;        /* Full screen height */
+>>>>>>> 0d162659818a3f446f5236316d391c7db225a74e
 }
 
 .projects {
@@ -131,7 +155,11 @@ p {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
+<<<<<<< HEAD
   justify-items: center;
+=======
+  justify-items: center; /* Center items in grid cells */
+>>>>>>> 0d162659818a3f446f5236316d391c7db225a74e
 }
 
 .project {
@@ -144,8 +172,11 @@ p {
   justify-content: center;  
   align-items: center;
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+<<<<<<< HEAD
   width: 100%;
   max-width: 450px;  /* ✅ prevent going too wide */
+=======
+>>>>>>> 0d162659818a3f446f5236316d391c7db225a74e
 }
 
 .project:hover {
@@ -156,7 +187,11 @@ p {
 .slideshow {
   width: 100%;
   max-width: 400px;
+<<<<<<< HEAD
   height: auto;
+=======
+  height: 220px;
+>>>>>>> 0d162659818a3f446f5236316d391c7db225a74e
   margin-top: 1rem;
   display: flex;
   justify-content: center;
@@ -166,7 +201,11 @@ p {
 
 .slideshow img {
   width: 100%;
+<<<<<<< HEAD
   height: auto;
+=======
+  height: 100%;
+>>>>>>> 0d162659818a3f446f5236316d391c7db225a74e
   object-fit: cover;
   border-radius: 8px;
   transition: opacity 0.5s ease-in-out;
@@ -175,10 +214,13 @@ p {
 /* Hero Section */
 .hero {
   text-align: center;
+<<<<<<< HEAD
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
+=======
+>>>>>>> 0d162659818a3f446f5236316d391c7db225a74e
 }
 
 .intro-text {
@@ -232,9 +274,13 @@ p {
   justify-content: center;
   align-items: center;
   text-align: center;
+<<<<<<< HEAD
   min-height: auto;
   max-width: 900px;
   margin: 0 auto;
+=======
+  min-height: 70vh;
+>>>>>>> 0d162659818a3f446f5236316d391c7db225a74e
 }
 
 .contact-buttons {
@@ -290,6 +336,7 @@ footer {
   font-size: 0.9rem;
   backdrop-filter: blur(5px);
 }
+<<<<<<< HEAD
 
 /* Profile Picture in Hero */
 .profile-pic {
@@ -330,3 +377,5 @@ footer {
   .tagline { font-size: 0.9rem; }
   .project { padding: 1rem; }
 }
+=======
+>>>>>>> 0d162659818a3f446f5236316d391c7db225a74e
