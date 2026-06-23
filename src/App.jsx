@@ -10,7 +10,7 @@ import img6  from "./assets/6.jpeg";
 import img7  from "./assets/7.jpeg";
 import img8  from "./assets/8.jpeg";
 import img9  from "./assets/9.jpeg";
-import img10 from "./assets/myporf.jpeg";
+import img10 from "./assets/my-photo.jpeg";
 import st1 from "./assets/spendtrack1.jpeg";
 import st2 from "./assets/spendtrack2.jpeg";
 import st3 from "./assets/spendtrack3.jpeg";
@@ -24,7 +24,7 @@ const skills = [
   { cat:"Frameworks", color:"purple", items:["Spring Boot","Flutter","Selenium"] },
   { cat:"Database",   color:"green",  items:["MySQL"] },
   { cat:"DevOps",     color:"orange", items:["Docker","AWS EC2","Git","GitHub"] },
-  { cat:"AI / ML",    color:"pink",   items:["TensorFlow Lite","NLP","Prompt Engineering"] },
+  { cat:"AI / ML",    color:"pink",   items:["TensorFlow Lite","NLP"] },
 ];
 
 const certs = [
@@ -36,23 +36,24 @@ const certs = [
 const marqueeItems = [
   "Java","Spring Boot","Flutter","MySQL","Docker",
   "AWS EC2","TensorFlow Lite","NLP","Selenium","Git",
-  "React","REST APIs","Prompt Engineering","Spring Security",
+  "REST APIs","GitHub","VS Code","Eclipse",
 ];
 
 const navLinks = ["home","about","experience","projects","skills","contact"];
 
 const roles = [
   "Full Stack Developer",
-  "Spring Boot Engineer",
-  "Flutter Developer",
-  "AI/ML Explorer",
+  "Learning Spring Boot",
+  "AI-Assisted App Builder",
+  "Exploring AI/ML",
   "CS Engineer",
 ];
 
 
 const SCRAMBLE_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%";
 
-function Reveal({ children, className="", delay=0, tag:Tag="div" }) {
+function Reveal({ children, className="", delay=0, tag="div" }) {
+  const Tag = tag;
   const ref = useRef(null);
   useEffect(() => {
     const el = ref.current; if (!el) return;
@@ -106,12 +107,9 @@ export default function App() {
   const [scrambled, setScrambled] = useState("Vishwa M");
 
   const canvasRef     = useRef(null);
-  const curDotRef     = useRef(null);
-  const curRingRef    = useRef(null);
   const statsRef      = useRef(null);
   const statsAnimated = useRef(false);
   const rafCanvas     = useRef(null);
-  const rafCursor     = useRef(null);
   const rafScroll     = useRef(null);
 
   useEffect(() => {
@@ -164,19 +162,21 @@ export default function App() {
     return () => { cancelAnimationFrame(rafCanvas.current); window.removeEventListener("resize",resize); window.removeEventListener("mousemove",onMouse); };
   }, []);
 
+
+  // Click-and-drag + wheel horizontal scroll for the tech marquee strip.
   useEffect(() => {
-    const dot=curDotRef.current, ring=curRingRef.current;
-    if(!dot||!ring) return;
-    let mx=0,my=0,rx=0,ry=0;
-    const lerp=(a,b,t)=>a+(b-a)*t;
-    const onMove=e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+"px";dot.style.top=my+"px";};
+    const el = document.getElementById("mq")?.parentElement;
+    if(!el) return;
+    let down=false, startX=0, startScroll=0;
+    const onDown =e=>{ down=true; startX=e.pageX; startScroll=el.scrollLeft; el.classList.add("dragging"); };
+    const onMove =e=>{ if(!down) return; e.preventDefault(); el.scrollLeft=startScroll-(e.pageX-startX); };
+    const onUp   =()=>{ down=false; el.classList.remove("dragging"); };
+    const onWheel=e=>{ if(e.deltaY===0) return; el.scrollLeft+=e.deltaY; e.preventDefault(); };
+    el.addEventListener("mousedown",onDown);
     window.addEventListener("mousemove",onMove);
-    const tick=()=>{ rx=lerp(rx,mx,.1); ry=lerp(ry,my,.1); ring.style.left=rx+"px"; ring.style.top=ry+"px"; rafCursor.current=requestAnimationFrame(tick); };
-    tick();
-    const grow=()=>ring.classList.add("big"), shrink=()=>ring.classList.remove("big");
-    const els=document.querySelectorAll("a,button");
-    els.forEach(el=>{el.addEventListener("mouseenter",grow);el.addEventListener("mouseleave",shrink);});
-    return ()=>{ cancelAnimationFrame(rafCursor.current); window.removeEventListener("mousemove",onMove); els.forEach(el=>{el.removeEventListener("mouseenter",grow);el.removeEventListener("mouseleave",shrink);}); };
+    window.addEventListener("mouseup",onUp);
+    el.addEventListener("wheel",onWheel,{passive:false});
+    return ()=>{ el.removeEventListener("mousedown",onDown); window.removeEventListener("mousemove",onMove); window.removeEventListener("mouseup",onUp); el.removeEventListener("wheel",onWheel); };
   }, []);
 
   useEffect(() => {
@@ -185,7 +185,9 @@ export default function App() {
       const total = document.documentElement.scrollHeight - innerHeight;
       const bar = document.getElementById("spbar");
       if(bar) bar.style.width = `${(sy/total)*100}%`;
-      setScrolled(sy > 20);
+      // Only update state when the boolean flips — calling setScrolled every
+      // frame re-renders the whole App on each scroll tick, causing flicker.
+      setScrolled(prev => { const next = sy > 20; return prev === next ? prev : next; });
 
       if(sy < innerHeight*1.6){
         [
@@ -208,15 +210,18 @@ export default function App() {
       if(o2) o2.style.transform=`translateY(${-sy*.09}px)`;
       if(o3) o3.style.transform=`translateY(${sy*.16}px)`;
 
-      const mq=document.getElementById("mq");
-      if(mq) mq.style.transform=`translateX(${-sy*.12}px)`;
 
+      // Image parallax zoom — desktop only. On mobile the scale(1.14) overflow
+      // combined with the 3D card transforms makes images bleed out and overlap.
+      const enableImgParallax = innerWidth > 768;
       document.querySelectorAll(".slideshow").forEach(ss=>{
+        const img=ss.querySelector("img");
+        if(!img) return;
+        if(!enableImgParallax){ img.style.transform=""; return; }
         const rect=ss.getBoundingClientRect();
         if(rect.top<innerHeight&&rect.bottom>0){
           const prog=(innerHeight-rect.top)/(innerHeight+rect.height);
-          const img=ss.querySelector("img");
-          if(img) img.style.transform=`translateY(${(prog-.5)*50}px) scale(1.14)`;
+          img.style.transform=`translateY(${(prog-.5)*50}px) scale(1.14)`;
         }
       });
 
@@ -228,7 +233,9 @@ export default function App() {
 
       document.querySelectorAll("section[id]").forEach(sec=>{
         const r=sec.getBoundingClientRect();
-        if(r.top<=innerHeight*.45&&r.bottom>=innerHeight*.45) setActive(sec.id);
+        if(r.top<=innerHeight*.45&&r.bottom>=innerHeight*.45){
+          setActive(prev => prev === sec.id ? prev : sec.id);
+        }
       });
 
       rafScroll.current=null;
@@ -241,12 +248,13 @@ export default function App() {
 
   useEffect(() => {
     const secs=document.querySelectorAll("section[id]");
+    // Reveal once and stop observing — toggling show on/off at a section
+    // boundary made the entry transition loop while parked there.
     const ob=new IntersectionObserver(entries=>entries.forEach(e=>{
-      if(e.isIntersecting) e.target.classList.add("show");
-      else e.target.classList.remove("show");
+      if(e.isIntersecting){ e.target.classList.add("show"); ob.unobserve(e.target); }
     }),{threshold:0.07});
     secs.forEach(s=>ob.observe(s));
-    return ()=>secs.forEach(s=>ob.unobserve(s));
+    return ()=>ob.disconnect();
   }, []);
 
   useEffect(()=>{ const c=()=>setMenu(false); window.addEventListener("scroll",c); return ()=>window.removeEventListener("scroll",c); },[]);
@@ -307,8 +315,6 @@ export default function App() {
 
   return (
     <div className="app">
-      <div ref={curDotRef}  className="cur-dot"/>
-      <div ref={curRingRef} className="cur-ring"/>
       <div className="sp-track"><div id="spbar" className="sp-bar"/></div>
       <div className="grain"/>
       <canvas ref={canvasRef} className="bg-canvas"/>
@@ -358,7 +364,7 @@ export default function App() {
         <h1 id="hero-name"  className="hero-name anim-up" style={{animationDelay:".25s"}}>{scrambled}</h1>
         <div className="name-line anim-up" style={{animationDelay:".32s"}} />
         <h2 id="hero-sub"   className="hero-sub  anim-up" style={{animationDelay:".40s"}}>
-          <span className="typewriter">{displayed}</span><span className="cursor-blink">|</span>
+          <span className="typewriter">{displayed}</span>
         </h2>
         <p  id="hero-tag"   className="hero-tag  anim-up" style={{animationDelay:".55s"}}>
           Building scalable applications and AI-powered solutions.<br/>
@@ -372,7 +378,7 @@ export default function App() {
           <div className="stat"><span className="sv" data-t="3">0</span><span className="sl">Projects</span></div>
         </div>
         <div id="hero-ctas" className="ctas anim-up" style={{animationDelay:".85s"}}>
-          <MagBtn href="/RESUME-VISHWA-M-1.pdf" download className="btn-p">Download Resume</MagBtn>
+          <MagBtn href={`${import.meta.env.BASE_URL}VISHWA_M-2026.pdf`} download className="btn-p">Download Resume</MagBtn>
           <MagBtn href="#projects" className="btn-o">View Projects</MagBtn>
         </div>
         <a id="scroll-arr" href="#about" className="scroll-arr" aria-label="scroll">
@@ -382,7 +388,7 @@ export default function App() {
 
       <div className="mq-outer">
         <div id="mq" className="mq-inner">
-          {[...marqueeItems,...marqueeItems].map((t,i)=>(
+          {marqueeItems.map((t,i)=>(
             <span key={i} className="mq-item"><span className="mq-dot">◆</span>{t}</span>
           ))}
         </div>
@@ -516,7 +522,7 @@ export default function App() {
           {[
             {href:"https://www.linkedin.com/in/vishwa-m-b93719324/",cls:"ln",icon:"https://cdn-icons-png.flaticon.com/64/174/174857.png",  label:"LinkedIn"},
             {href:"https://github.com/ViShWa-MV",                   cls:"gh",icon:"https://cdn-icons-png.flaticon.com/64/25/25231.png",   label:"GitHub"},
-            {href:"https://leetcode.com/u/vishwa_mv/",              cls:"lc",icon:"https://cdn-icons-png.flaticon.com/64/9888/9888260.png",label:"LeetCode"},
+            {href:"https://leetcode.com/u/ukgbGC16O5/",              cls:"lc",icon:"https://cdn-icons-png.flaticon.com/64/9888/9888260.png",label:"LeetCode"},
             {href:"mailto:mvishwa270@gmail.com",                    cls:"em",icon:"https://cdn-icons-png.flaticon.com/64/732/732200.png",  label:"Email Me"},
             {href:"https://www.instagram.com/vishx__a/",            cls:"ig",icon:"https://cdn-icons-png.flaticon.com/64/2111/2111463.png",label:"Instagram"},
           ].map((c,i)=>(

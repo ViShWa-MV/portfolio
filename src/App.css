@@ -12,15 +12,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 a{text-decoration:none;color:inherit;}
 strong{color:var(--text);}
 
-/* ── Cursor ── */
-@media(pointer:fine){*{cursor:none!important;}}
-.cur-dot,.cur-ring{display:none;position:fixed;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);}
-@media(pointer:fine){
-  .cur-dot{display:block;width:6px;height:6px;background:white;}
-  .cur-ring{display:block;width:36px;height:36px;border:1.5px solid rgba(56,189,248,.7);transition:width .3s,height .3s,border-color .3s;}
-  .cur-ring.big{width:56px;height:56px;border-color:rgba(56,189,248,.35);}
-}
-
 /* ── Scroll progress ── */
 .sp-track{position:fixed;top:0;left:0;right:0;height:2px;background:rgba(255,255,255,.05);z-index:9998;}
 .sp-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--cyan),var(--purple));transition:width .1s linear;}
@@ -149,12 +140,6 @@ section[data-n]::before{
   position:relative;z-index:2;
 }
 .typewriter{color:var(--cyan);}
-.cursor-blink{
-  color:var(--cyan);
-  animation:blink .7s step-end infinite;
-  font-weight:300;
-}
-@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
 
 .hero-tag{font-size:clamp(.85rem,1.6vw,1rem);color:var(--dim);max-width:480px;line-height:1.8;margin-bottom:2rem;position:relative;z-index:2;}
 
@@ -178,8 +163,14 @@ section[data-n]::before{
 @keyframes chevron{0%,100%{transform:rotate(45deg) translateY(0);}50%{transform:rotate(45deg) translateY(5px);}}
 
 /* ── Marquee strip ── */
-.mq-outer{width:100%;overflow:hidden;padding:1.25rem 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);position:relative;z-index:2;background:rgba(4,8,15,.6);backdrop-filter:blur(10px);}
-.mq-inner{display:flex;gap:0;white-space:nowrap;will-change:transform;}
+/* manually scrollable tech strip (drag / swipe / wheel) */
+.mq-outer{width:100%;overflow-x:auto;overflow-y:hidden;padding:1.25rem 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);position:relative;z-index:2;background:rgba(4,8,15,.6);backdrop-filter:blur(10px);cursor:grab;scrollbar-width:thin;scrollbar-color:var(--cyan) transparent;-webkit-overflow-scrolling:touch;}
+.mq-outer:active{cursor:grabbing;}
+.mq-outer.dragging{cursor:grabbing;}
+.mq-outer::-webkit-scrollbar{height:6px;}
+.mq-outer::-webkit-scrollbar-track{background:rgba(255,255,255,.04);}
+.mq-outer::-webkit-scrollbar-thumb{background:var(--cyan);border-radius:20px;}
+.mq-inner{display:flex;gap:0;white-space:nowrap;width:max-content;min-width:100%;justify-content:center;}
 .mq-item{display:inline-flex;align-items:center;gap:.75rem;padding:0 1.5rem;font-size:.78rem;font-weight:600;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;}
 .mq-dot{color:var(--cyan);font-size:.5rem;}
 
@@ -235,8 +226,8 @@ section[data-n]::before{
 .proj-link{font-size:.8rem;font-weight:700;color:var(--cyan);display:inline-flex;gap:.2rem;transition:gap .2s;}
 .proj-link:hover{gap:.5rem;}
 /* uniform slideshow — always same height, pinned at bottom */
-.slideshow{position:relative;width:100%;height:220px;border-radius:10px;overflow:hidden;margin-top:auto;flex-shrink:0;background:#0a1628;}
-.slideshow img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center;display:block;}
+.slideshow{position:relative;width:100%;height:300px;border-radius:10px;overflow:hidden;margin-top:auto;flex-shrink:0;background:#0a1628;}
+.slideshow img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center center;display:block;padding:.5rem;}
 .dots{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:flex;gap:5px;z-index:1;}
 .d{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.35);transition:background .3s;}
 .d.on{background:white;}
@@ -246,7 +237,8 @@ section[data-n]::before{
 
 /* ── Skills ── */
 #skills{min-height:auto;}
-.skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:1rem;width:100%;margin-bottom:3rem;}
+.skills-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:1rem;width:100%;margin-bottom:3rem;}
+.skill-card{flex:1 1 200px;max-width:260px;}
 .skill-card{padding:1.25rem;background:var(--card);border:1px solid var(--border);border-radius:var(--r);transition:transform .3s,border-color .3s;}
 .skill-card:hover{transform:translateY(-5px);}
 .sc-cyan:hover{border-color:rgba(56,189,248,.35);}
@@ -283,7 +275,9 @@ section[data-n]::before{
 .contact-info{color:var(--dim);font-size:.82rem;margin-top:.5rem;}
 
 /* ── Footer ── */
-footer{text-align:center;padding:2rem;border-top:1px solid var(--border);color:var(--dim);font-size:.8rem;line-height:2;position:relative;z-index:2;}
+/* isolate from the transformed sections above so their per-frame repaints
+   during scroll don't bleed into the footer and cause flicker */
+footer{text-align:center;padding:2rem;border-top:1px solid var(--border);color:var(--dim);font-size:.8rem;line-height:2;position:relative;z-index:3;background:var(--bg);contain:paint;backface-visibility:hidden;transform:translateZ(0);}
 footer span{color:var(--cyan);font-weight:600;}
 .fstack{color:var(--dim);}
 
@@ -307,13 +301,17 @@ footer span{color:var(--cyan);font-weight:600;}
   .stitle{font-size:clamp(1.7rem,6vw,2.4rem);margin-bottom:2rem;}
   section[data-n]::before{font-size:clamp(4rem,18vw,7rem);right:0;}
   .proj-grid{grid-template-columns:1fr;}
-  .slideshow{height:200px;}
-  .skills-grid{grid-template-columns:1fr 1fr;}
+  .slideshow{height:280px;}
+  /* Flatten 3D card transforms on mobile so images can't bleed out & overlap */
+  .proj-card{transform-style:flat!important;}
+  .proj-card .proj-head,.proj-card .ptags,.proj-card>p,.proj-card .slideshow{transform:none!important;}
+  .slideshow img{transform:none!important;}
+  .skill-card{flex:1 1 140px;max-width:none;}
   .tl-top{flex-direction:column;gap:.2rem;}
   .cc{min-width:80px;padding:1rem 1.2rem;}
 }
 @media(max-width:400px){
-  .skills-grid{grid-template-columns:1fr;}
+  .skill-card{flex-basis:100%;}
   .stats{flex-direction:column;gap:.75rem;}
   .sep{width:50px;height:1px;}
 }
