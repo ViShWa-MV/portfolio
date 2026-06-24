@@ -468,8 +468,10 @@ export default function App() {
           <Reveal delay={100}>
             <TiltCard className="proj-card">
               <div className="proj-head"><span className="proj-ico">🅿️</span><h3>Parking Slot Management</h3></div>
-              <div className="ptags">{["Spring Boot","MySQL","AWS EC2","REST API"].map(t=><span key={t}>{t}</span>)}</div>
-              <p>Spring Boot app with <strong>RESTful APIs</strong>, Spring Security role-based access, MySQL. Deployed on <strong>AWS EC2</strong>.</p>
+              <div className="ptags">{["Spring Boot","MySQL","Railway","REST API"].map(t=><span key={t}>{t}</span>)}</div>
+              <p>Spring Boot app with <strong>RESTful APIs</strong>, Spring Security role-based access, MySQL. Deployed on <strong>Railway</strong>.</p>
+              <a href="https://parkingmanagement-production.up.railway.app/signup"
+                 target="_blank" rel="noopener noreferrer" className="proj-link">Visit Live →</a>
               <div className="slideshow">
                 <img src={parkingImages[pkIdx]} alt={`Parking ${pkIdx+1}`}/>
                 <div className="dots">{parkingImages.map((_,i)=><span key={i} className={i===pkIdx?"d on":"d"}/>)}</div>
